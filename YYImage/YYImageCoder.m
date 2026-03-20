@@ -16,7 +16,9 @@
 #import <Accelerate/Accelerate.h>
 #import <QuartzCore/QuartzCore.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 #import <AssetsLibrary/AssetsLibrary.h>
+#endif
 #import <objc/runtime.h>
 #import <pthread.h>
 #import <zlib.h>
@@ -2793,6 +2795,7 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
     objc_setAssociatedObject(self, @selector(yy_isDecodedForDisplay), @(isDecodedForDisplay), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0
 - (void)yy_saveToAlbumWithCompletionBlock:(void(^)(NSURL *assetURL, NSError *error))completionBlock {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData *data = [self _yy_dataRepresentationForSystem:YES];
@@ -2809,6 +2812,7 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
         }];
     });
 }
+#endif
 
 - (NSData *)yy_imageDataRepresentation {
     return [self _yy_dataRepresentationForSystem:NO];
